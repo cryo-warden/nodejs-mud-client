@@ -13,9 +13,19 @@ let drink = [
   "You are beginning to dehydrate!"
 ];
 
-module.exports = function(connector) {
+const ConnectorHandler = require('../lib/connectorHandler');
 
-  connector.on('readlineServer', function (line) {
+class AutoEatTriggers extends ConnectorHandler {
+
+
+  get connectorEvents() {
+    return ['readlineServer'];
+  }
+
+  onReadlineServer(line) {
+
+    let connector = this.connector;
+
     if (eat.indexOf(line) != -1) {
       connector.character.eat();
     }
@@ -23,6 +33,11 @@ module.exports = function(connector) {
     if (drink.indexOf(line) != -1) {
       connector.character.drink();
     }
-  });
-  
-};
+
+  }
+
+
+}
+
+module.exports = AutoEatTriggers;
+

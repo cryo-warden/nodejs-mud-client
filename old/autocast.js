@@ -13,11 +13,8 @@ let cast = [
 
 module.exports = function(connector) {
 
-
   connector.on('readlineServer', function (line) {
     // strip beginning prompt
-    line = line.replace(/^<.*?>\s+/, '');
-
     // if I cast a spell
     if (cast.indexOf(line) != -1) {
       // recast it

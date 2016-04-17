@@ -3,15 +3,13 @@
 const config = require('./config');
 const Connector = require('./connector');
 const Character = require('./character');
-const out = require('./out');
-
 
 let connector = new Connector();
 connector.connect(config);
 
 let character = new Character(connector);
 
-// #off disables all actions 
+// #off disables all actions
 connector.on('command', function(cmd, args) {
   if (cmd == 'off') {
     connector.readlineServerDisabled = true;
@@ -20,17 +18,19 @@ connector.on('command', function(cmd, args) {
 
 // Autorepeat command:
 // #10 say Boo!
-require('./autorepeat')(connector);
 
-require('./autoeat')(connector);
-require('./autoprac')(connector);
+//connector.loadHandler('./commands/repeat');
 
-// A simple autofighting script
-connector.on('readlineServer', function(line) {
-  if (line.includes("Kef's backstab")) {
-    connector.write("resc kef");
-    connector.write("resc kef");
-    connector.write("resc kef");
-    connector.write("dirt");
-  }
-});
+// require('./autoeat')(connector);
+// require('./autoprac')(connector);
+
+connector.loadHandler('./lib/speedwalk');
+connector.loadHandler('./commands/back');
+connector.loadHandler('./commands/repeat');
+connector.loadHandler('./commands/load');
+connector.loadHandler('./commands/unload');
+connector.loadHandler('./triggers/fighter');
+connector.loadHandler('./triggers/pincer');
+connector.loadHandler('./notifiers/interaction');
+
+
